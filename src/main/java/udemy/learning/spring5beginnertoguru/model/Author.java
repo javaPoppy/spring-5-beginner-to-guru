@@ -1,7 +1,9 @@
 package udemy.learning.spring5beginnertoguru.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
+@ToString
 public class Author {
 
     @Id
@@ -19,7 +23,7 @@ public class Author {
     private String lastName;
 
     @ManyToMany(mappedBy = "authors")
-    private Set<Books> books = new HashSet<>();
+    private Set<Book> books = new HashSet<>();
 
 
 }
