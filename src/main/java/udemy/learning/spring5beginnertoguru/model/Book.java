@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @EqualsAndHashCode
 @ToString
-public class Books {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
