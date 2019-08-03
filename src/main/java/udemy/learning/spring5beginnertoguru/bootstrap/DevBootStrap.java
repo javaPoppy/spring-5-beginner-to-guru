@@ -7,8 +7,10 @@ import udemy.learning.spring5beginnertoguru.model.Address;
 import udemy.learning.spring5beginnertoguru.model.Author;
 import udemy.learning.spring5beginnertoguru.model.Book;
 import udemy.learning.spring5beginnertoguru.model.Publisher;
+import udemy.learning.spring5beginnertoguru.repositories.AddressRepository;
 import udemy.learning.spring5beginnertoguru.repositories.AuthorRepository;
 import udemy.learning.spring5beginnertoguru.repositories.BookRepository;
+import udemy.learning.spring5beginnertoguru.repositories.PublisherRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +20,14 @@ public class DevBootStrap implements ApplicationListener<ContextRefreshedEvent> 
 
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
+    private PublisherRepository publisherRepository;
+    private AddressRepository addressRepository;
 
-    public DevBootStrap(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public DevBootStrap(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository, AddressRepository addressRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -34,12 +40,21 @@ public class DevBootStrap implements ApplicationListener<ContextRefreshedEvent> 
         kalam.setFirstName("Abdul");
         kalam.setLastName("Kalam");
 
-        Address adr1 = new Address(1,"Sannathai Theru","Tiruchi","India","639587");
-        Address adr2 = new Address(2,"Second Theru","Tiruchi","India","639587");
-
         Book agniSiragugal = new Book();
         agniSiragugal.setTitle("Agni Chiragugal");
         agniSiragugal.setIsbn("ROCKET");
+
+        Address adr1 = new Address(1,"Sannathai Theru","Tiruchi","India","639587");
+        Address adr2 = new Address(2,"Second Theru","Tiruchi","India","639587");
+        Address adr3 = new Address(3,"Third Theru","Tiruchi","India","639587");
+        Address adr4 = new Address(4,"Fourth Theru","Tiruchi","India","639587");
+        Address adr5 = new Address(5,"Fifth Theru","Tiruchi","India","639587");
+
+        addressRepository.save(adr1);
+        addressRepository.save(adr2);
+        addressRepository.save(adr3);
+        addressRepository.save(adr4);
+        addressRepository.save(adr5);
 
 
         Publisher publisherForKalam = new Publisher();
@@ -47,14 +62,22 @@ public class DevBootStrap implements ApplicationListener<ContextRefreshedEvent> 
         List<Address> kalamPubliserAddress = new ArrayList<>();
         kalamPubliserAddress.add(adr1);
         kalamPubliserAddress.add(adr2);
-        publisherForKalam.setPublisherAddressList(new ArrayList(kalamPubliserAddress));
-
-        publisherForKalam.getPublisherAddressList().add(adr1);
-        publisherForKalam.getPublisherAddressList().add(adr2);
-
-
+        kalamPubliserAddress.add(adr5);
+        publisherForKalam.setPublisherAddressList(kalamPubliserAddress);
         agniSiragugal.setPublisher(publisherForKalam);
-        agniSiragugal.getPublisher().setPublisherName("Govt Of TamilNadu");
+
+
+        Publisher publisherForKannadhasan = new Publisher();
+        publisherForKannadhasan.setPublisherName("Govt Of TamilNadu");
+        List<Address> kannadhasanPubliserAddress = new ArrayList<>();
+        kannadhasanPubliserAddress.add(adr3);
+        kannadhasanPubliserAddress.add(adr4);
+        kannadhasanPubliserAddress.add(adr5);
+
+        publisherForKannadhasan.setPublisherAddressList(kannadhasanPubliserAddress);
+
+        publisherRepository.save(publisherForKalam);
+        publisherRepository.save(publisherForKannadhasan);
 
         kalam.getBooks().add(agniSiragugal);
         agniSiragugal.getAuthors().add(kalam);
@@ -73,25 +96,7 @@ public class DevBootStrap implements ApplicationListener<ContextRefreshedEvent> 
         kannadhasan.getBooks().add(artham);
         artham.getAuthors().add(kannadhasan);
 
-        Publisher publisherForKannadhasan = new Publisher();
-        publisherForKannadhasan.setPublisherName("Govt Of TamilNadu");
-        publisherForKannadhasan.getPublisherAddressList().add(adr1);
-        publisherForKannadhasan.getPublisherAddressList().add(adr2);
-
-
-        artham.setPublisher(publisherForKannadhasan);
-
-        Address adr3 = new Address(3,"Third Theru","Tiruchi","India","639587");
-        Address adr4 = new Address(4,"Fourth Theru","Tiruchi","India","639587");
-        Address adr5 = new Address(5,"Fifth Theru","Tiruchi","India","639587");
-
-        artham.getPublisher().getPublisherAddressList().add(adr3);
-        artham.getPublisher().getPublisherAddressList().add(adr4);
-        artham.getPublisher().getPublisherAddressList().add(adr5);
-
         authorRepository.save(kannadhasan);
         bookRepository.save(artham);
     }
-
-
 }
