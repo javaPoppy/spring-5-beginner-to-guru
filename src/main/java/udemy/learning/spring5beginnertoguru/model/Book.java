@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "authors")
 @ToString
 public class Book {
 
@@ -20,8 +20,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String firstName;
-    private String lastName;
+    private String title;
+    private String isbn;
+    private String publisher;
 
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
